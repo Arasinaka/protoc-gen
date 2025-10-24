@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package notification.v1;
+
+option go_package = "notification/v1;notificationV1";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+enum MessageType {
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  MESSAGE_TYPE_TRANSACTIONAL = 1; // 验证码/通知
+  MESSAGE_TYPE_PROMOTIONAL = 2;   // 营销
+}
+
+enum DeliveryStatus {
+  DELIVERY_STATUS_UNSPECIFIED = 0;
+  DELIVERY_QUEUED = 1;
+  DELIVERY_SENT = 2;
+  DELIVERY_DELIVERED = 3;
+  DELIVERY_UNDELIVERED = 4;
+  DELIVERY_FAILED = 5;
+  DELIVERY_PARTIAL = 6;
+}
+
+// ===== Common =====
+message KeyValue {
+  string key = 1;
+  string value = 2;
+}
+
+// ===== Email =====
+message EmailAddress {
+  string name = 1;           // 可选显示名
+  string email = 2;          // RFC 5322 格式
+}

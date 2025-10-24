@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package notification.v1;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "notification/v1/notification.proto";
+
+option go_package = "notification/v1;notificationV1";
+
+// swagger definition.
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Notification Follow API"
+    version: "1.0.0"
+  }
+  schemes: HTTP
+  schemes: HTTPS
+  consumes: "application/json"
+  produces: "application/json"
+  base_path: "notification/api"
+  responses: {
+    key: "404"
+    value: {
+      description: "Returned when the resource does not exists."
+      schema: {
+        json_schema: {
+          ref: ".notification.v1.Error"
+        }
+      }
+    }
+  }
+  responses: {
+    key: "503"
+    value: {
+      description: "Returned when the resource is temporarily unavailable."
+      schema: {
+        json_schema: {
+          ref: ".notification.v1.Error"
+        }
+      }
+    }
+  }
+  responses: {
+    key: "500"
+    value: {
+      description: "Returned when the internal server error."
+      schema: {
+        json_schema: {
+          ref: ".notification.v1.Error"
+        }
+      }
+    }
+  }
+  responses: {
+    key: "403"
+    value: {
+      description: "Returned when the user does not have permission to access the resource."
+      schema: {
+        json_schema: {
+          ref: ".notification.v1.Error"
+        }
+      }
+    }
+  }
+};
+
+// Security config api.
+service NotificationAPI {
+  // Send an email notification.
+  rpc NotifyEmail(EmailNotifyRequest) returns (EmailNotifyResponse) {
+    option (google.api.http) = {
+      post: "/notification/api/v1/notify_email"
+      body: "*"
+    };
+  }
+  // Send an SMS notification.
+  rpc NotifySms(SmsNotifyRequest) returns (SmsNotifyResponse){
+    option (google.api.http) = {
+      post: "/notification/api/v1/notify_sms"
+      body: "*"
+    };
+  }
+}
+
+message EmailNotifyRequest {
+}
+
+message EmailNotifyResponse {
+}
+
+message SmsNotifyRequest {
+  string phone               = 1; // E.164
+  string attempt_id          = 2; // 我方单目标尝试ID
+  string provider_message_id = 3; // 供应商消息ID（若有）
+  DeliveryStatus status      = 4;
+  string error_code          = 5;
+  string error_message       = 6;
+}
+
+message SmsNotifyResponse {
+  string request_region = 2;
+  string attempt_id     = 3; // 本次请求的聚合ID（可选）
+  string error_code     = 4;
+  string error_message  = 5;
+}

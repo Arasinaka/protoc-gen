@@ -1,0 +1,232 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Notification Follow API",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "NotificationAPI"
+    }
+  ],
+  "basePath": "notification/api",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/notification/api/v1/notify_email": {
+      "post": {
+        "summary": "Send an email notification.",
+        "operationId": "NotificationAPI_NotifyEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EmailNotifyResponse"
+            }
+          },
+          "403": {
+            "description": "Returned when the user does not have permission to access the resource.",
+            "schema": {
+              "$ref": ".notification.v1.Error"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exists.",
+            "schema": {
+              "$ref": ".notification.v1.Error"
+            }
+          },
+          "500": {
+            "description": "Returned when the internal server error.",
+            "schema": {
+              "$ref": ".notification.v1.Error"
+            }
+          },
+          "503": {
+            "description": "Returned when the resource is temporarily unavailable.",
+            "schema": {
+              "$ref": ".notification.v1.Error"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1EmailNotifyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationAPI"
+        ]
+      }
+    },
+    "/notification/api/v1/notify_sms": {
+      "post": {
+        "summary": "Send an SMS notification.",
+        "operationId": "NotificationAPI_NotifySms",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SmsNotifyResponse"
+            }
+          },
+          "403": {
+            "description": "Returned when the user does not have permission to access the resource.",
+            "schema": {
+              "$ref": ".notification.v1.Error"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exists.",
+            "schema": {
+              "$ref": ".notification.v1.Error"
+            }
+          },
+          "500": {
+            "description": "Returned when the internal server error.",
+            "schema": {
+              "$ref": ".notification.v1.Error"
+            }
+          },
+          "503": {
+            "description": "Returned when the resource is temporarily unavailable.",
+            "schema": {
+              "$ref": ".notification.v1.Error"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1SmsNotifyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "NotificationAPI"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1DeliveryStatus": {
+      "type": "string",
+      "enum": [
+        "DELIVERY_STATUS_UNSPECIFIED",
+        "DELIVERY_QUEUED",
+        "DELIVERY_SENT",
+        "DELIVERY_DELIVERED",
+        "DELIVERY_UNDELIVERED",
+        "DELIVERY_FAILED",
+        "DELIVERY_PARTIAL"
+      ],
+      "default": "DELIVERY_STATUS_UNSPECIFIED"
+    },
+    "v1EmailNotifyRequest": {
+      "type": "object"
+    },
+    "v1EmailNotifyResponse": {
+      "type": "object"
+    },
+    "v1SmsNotifyRequest": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string",
+          "title": "E.164"
+        },
+        "attempt_id": {
+          "type": "string",
+          "title": "我方单目标尝试ID"
+        },
+        "provider_message_id": {
+          "type": "string",
+          "title": "供应商消息ID（若有）"
+        },
+        "status": {
+          "$ref": "#/definitions/v1DeliveryStatus"
+        },
+        "error_code": {
+          "type": "string"
+        },
+        "error_message": {
+          "type": "string"
+        }
+      }
+    },
+    "v1SmsNotifyResponse": {
+      "type": "object",
+      "properties": {
+        "request_region": {
+          "type": "string"
+        },
+        "attempt_id": {
+          "type": "string",
+          "title": "本次请求的聚合ID（可选）"
+        },
+        "error_code": {
+          "type": "string"
+        },
+        "error_message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
