@@ -8,14 +8,14 @@ import (
 )
 
 const (
-	TenantIDKey     = "HORIZON_TENANT_ID"
-	ClientIDKey     = "HORIZON_CLIENT_ID"
-	ClientSecretKey = "HORIZON_CLIENT_SECRET"
-	TokenUrlKey     = "HORIZON_TOKEN_URL"
-	HostKey         = "HORIZON_HOST"
-	TLSEnabledKey   = "HORIZON_TLS_ENABLED"
-	LogEnabledKey   = "HORIZON_LOG_ENABLED"
-	TraceEnabledKey = "HORIZON_TRACE_ENABLED"
+	TenantIDKey     = "TENANT_ID"
+	ClientIDKey     = "CLIENT_ID"
+	ClientSecretKey = "CLIENT_SECRET"
+	TokenUrlKey     = "TOKEN_URL"
+	HostKey         = "HOST"
+	TLSEnabledKey   = "TLS_ENABLED"
+	LogEnabledKey   = "LOG_ENABLED"
+	TraceEnabledKey = "TRACE_ENABLED"
 )
 
 type Config struct {

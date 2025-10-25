@@ -39,15 +39,15 @@ func (opts *options) check() error {
 	}
 
 	if len(opts.TenantID) == 0 {
-		return fmt.Errorf("Tenant ID required. Check the env 'HORIZON_TENANT_ID' or use 'TenantID' option")
+		return fmt.Errorf("Tenant ID required. Check the env 'TENANT_ID' or use 'TenantID' option")
 	}
 
 	if len(opts.ClientID) == 0 {
-		return fmt.Errorf("Client ID required. Check the env 'HORIZON_CLIENT_ID' or use 'ClientID' option")
+		return fmt.Errorf("Client ID required. Check the env 'CLIENT_ID' or use 'ClientID' option")
 	}
 
 	if len(opts.ClientSecret) == 0 {
-		return fmt.Errorf("Secret required. Check the env 'HORIZON_CLIENT_SECRET' or use 'ClientSecret' option")
+		return fmt.Errorf("Secret required. Check the env 'CLIENT_SECRET' or use 'ClientSecret' option")
 	}
 
 	if len(opts.BasePath) == 0 {
